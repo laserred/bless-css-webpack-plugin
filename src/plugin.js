@@ -6,6 +6,7 @@ const webpackSources = require('webpack-sources');
 const RawSource = webpackSources.RawSource;
 const SourceMapSource = webpackSources.SourceMapSource;
 const CSS_REGEXP = /\.css$/;
+const hash = Math.random().toString(36).substring(7);
 
 function createBlessedFileName(filenameWithoutExtension, index) {
   return index === 0 ? `${filenameWithoutExtension}.css` : `${filenameWithoutExtension}-blessed${index}.css`;
@@ -25,7 +26,7 @@ function addImports(parsedData, filenameWithoutExtension) {
     if (index !== sourceToInjectIndex) {
       const filename = createBlessedFileName(filenameWithoutExtension, index);
       // E.g. @import url(app-blessed1.css);
-      addImports += `@import url(${filename});\n`;
+      addImports += `@import url(${filename}?id=${hash});\n`;
     }
     return fileContents;
   });
